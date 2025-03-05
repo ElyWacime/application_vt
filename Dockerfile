@@ -17,15 +17,18 @@ RUN apt-get update && apt-get install -y \
     unzip \
     curl \
     vim \
-    tmux
+    tmux \
+    nginx
 
     
 WORKDIR /flask-app-pdf-v2
 
 COPY flask-app-pdf-v2 .
-
+COPY nginx.conf /etc/nginx/sites-available/application_vt
 COPY .tmux.conf /root/.tmux.conf
 COPY .tmux.conf .tmux.conf
+
+RUN ln -s /etc/nginx/sites-available/file /etc/nginx/sites-enabled/application_vt
 
 RUN curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
     | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
@@ -40,6 +43,6 @@ RUN python3 -m venv venv \
     && pip install -r requirements.txt
 
     
-EXPOSE 5000
+EXPOSE 12345 80
 
 CMD ["bash"]
