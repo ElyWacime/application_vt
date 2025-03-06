@@ -24,10 +24,11 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /flask-app-pdf-v2
 
 COPY flask-app-pdf-v2 .
-COPY nginx.conf /etc/nginx/sites-available/application_vt
+COPY nginx.conf /etc/nginx/sites-available/
 COPY .tmux.conf /root/.tmux.conf
 COPY .tmux.conf .tmux.conf
 
+RUN mv /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-available/application_vt
 RUN ln -s /etc/nginx/sites-available/file /etc/nginx/sites-enabled/application_vt
 
 RUN curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
