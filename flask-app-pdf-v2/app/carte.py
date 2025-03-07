@@ -49,7 +49,7 @@ def draw_map(_data):
         popup_html = f"""
     <div style="width:200px">
         <b>Image KoboToolbox</b><br>
-        <img src="file:///{point}" style="width:100%; max-height:150px;"><br>
+        <img src="file:///app/images/__{point}__.png" style="width:100%; max-height:150px;"><br>
         Cliquez à l'extérieur pour fermer
     </div>
     """     
