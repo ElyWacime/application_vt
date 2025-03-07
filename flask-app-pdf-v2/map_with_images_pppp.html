@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_65dce7d9f7bcfb7a6874abda8505a6f7 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_65dce7d9f7bcfb7a6874abda8505a6f7" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_65dce7d9f7bcfb7a6874abda8505a6f7 = L.map(
+                "map_65dce7d9f7bcfb7a6874abda8505a6f7",
+                {
+                    center: [-29.360979, -65.042604],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 15,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_d4ac072f8f4405970373f56d321507cd = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_d4ac072f8f4405970373f56d321507cd.addTo(map_65dce7d9f7bcfb7a6874abda8505a6f7);
+        
+    
+            var marker_c1e42e4db16275ea5adc3169674f64e4 = L.marker(
+                [-29.360979, -65.042604],
+                {
+}
+            ).addTo(map_65dce7d9f7bcfb7a6874abda8505a6f7);
+        
+    
+            var icon_25bccefa10acb90d878564620ff47e8e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "white",
+  "icon": "info-sign",
+  "prefix": "glyphicon",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6e2c426a577c12892bd3e399f9938c90 = L.popup({
+  "maxWidth": 250,
+});
+
+        
+            
+                var html_579c1001486e437a2c16abe8ddd8b2ec = $(`<div id="html_579c1001486e437a2c16abe8ddd8b2ec" style="width: 100.0%; height: 100.0%;">     <div style="width:200px">         <b>Image KoboToolbox</b><br>         <img src="file:///(-29.360979, -65.042604)" style="width:100%; max-height:150px;"><br>         Cliquez à l'extérieur pour fermer     </div>     </div>`)[0];
+                popup_6e2c426a577c12892bd3e399f9938c90.setContent(html_579c1001486e437a2c16abe8ddd8b2ec);
+            
+        
+
+        marker_c1e42e4db16275ea5adc3169674f64e4.bindPopup(popup_6e2c426a577c12892bd3e399f9938c90)
+        ;
+
+        
+    
+    
+                marker_c1e42e4db16275ea5adc3169674f64e4.setIcon(icon_25bccefa10acb90d878564620ff47e8e);
+            
+</script>
+</html>
