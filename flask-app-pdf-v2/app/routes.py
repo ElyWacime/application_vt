@@ -22,11 +22,10 @@ def generate_pdf():
 
     try:
         pdf_file_path = create_pdf_from_data(data)
-        map_path = draw_map(data)
+        print("\n\n\n\n\n####################\n\n\n\n\n")
         if not os.path.exists(pdf_file_path):
             return jsonify({"error": f"File not found: {pdf_file_path}"}), 500
         print(f"PDF generated at: {pdf_file_path}")
-        print(f"\n\n\n\n\n{map_path}\n\n\n\n\n")
         return send_file(pdf_file_path, download_name='output.pdf', as_attachment=True, mimetype='application/pdf')
     except Exception as e:
         print("\n\n\n\nENTER\n\n\n\n\n")
@@ -35,7 +34,6 @@ def generate_pdf():
 
 @bp.route("/proxy_image")
 def proxy_image():
-    """Récupère une image protégée depuis KoboToolbox et la renvoie sans restriction"""
     image_path = request.args.get("image")
     if not image_path:
         return "Image path missing", 400

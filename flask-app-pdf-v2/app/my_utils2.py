@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from app.office365_api import SharePoint
 from app.somaire import sommaire
 from app.css_content import css_content
+from app.carte import draw_map
 
 load_dotenv()
 
@@ -37,7 +38,7 @@ def create_pdf_from_data(data):
 
     # Process JSON data to generate HTML content
     html_content += process_json_data(data, images_dir)
-
+    map_path = draw_map(data)
     # Add additional information section
     html_content += f"""
     </body>
@@ -54,13 +55,19 @@ def create_pdf_from_data(data):
 
     # Upload PDF to SharePoint
     try:
-        upload_to_sharepoint(pdf_file_path)
+        upload_pdf_to_sharepoint(pdf_file_path)
     except Exception as e:
         print(f"Error uploading PDF to SharePoint: {e}")
 
+    #upload HTML to sharepoint
+    try:
+        upload_htm_to_sharepoint(map_path)
+    except Exception as e:
+        print(f"Error uploading html file to sharepoint {e}")
+
     return pdf_file_path
 
-def upload_to_sharepoint(file_path):
+def upload_pdf_to_sharepoint(file_path):
     folder_path = 'AAA_FOR_TEST_TO_DELETE_LATER'
     sharepoint = SharePoint()
     
@@ -74,8 +81,26 @@ def upload_to_sharepoint(file_path):
     # Upload the file to SharePoint
     response = sharepoint.upload_file(file_name, folder_path, content)
     print(f"File uploaded to SharePoint: {file_path}")
+
     return response
 
+def upload_htm_to_sharepoint(file_path):
+    folder_path = 'AAA_FOR_TEST_TO_DELETE_LATER'
+    sharepoint = SharePoint()
+    
+    if (file_path == ""):
+        raise ValueError("The html file path is empty!")
+    # Read the content of the file to upload
+    with open(file_path, 'rb') as file:
+        content = file.read()
+    
+    # Extract the file name from the file path
+    file_name = os.path.basename(file_path)
+    
+    # Upload the file to SharePoint
+    response = sharepoint.upload_file(file_name, folder_path, content)
+    print(f"File uploaded to SharePoint: {file_path}")
+    return response
 
 # =====================================changed ====================================
 def process_json_data(data, images_dir):
@@ -281,7 +306,8 @@ def process_generic_data(key, value):
         if (key != "_attachments" and key != "_geolocation" and (not (key.startswith("batiment_group/s") and len(key) == 18)) \
             and (not (key.startswith("site_group/s") and len(key) == 14)) \
             and (not (key.startswith("electricite_group/s") and (len(key) == 22 or len(key) == 21))) \
-            and (not (key.startswith("info_compl/s") and len(key) == 15))) else ""
+            and (not (key.startswith("info_compl/s") and len(key) == 15))) \
+            and not (value == "#008B8B") else ""
 
 
 def extract_image_urls(attachments):
@@ -289,7 +315,6 @@ def extract_image_urls(attachments):
     for attachment in attachments:
         filename = os.path.basename(attachment.get('filename', '').split('/')[-1])
         download_url = attachment.get('download_url', '')
-        print(f"Extracted filename: {filename}, download_url: {download_url}")  # Debugging print
         if filename and download_url:
             # Normalize the filename by replacing spaces with underscores
             normalized_filename = filename.replace(' ', '_')
@@ -301,12 +326,9 @@ def process_image(image_urls, image_name, images_dir):
     normalized_image_name = image_name.replace(' ', '_')
     # Get the image URL from the extracted image URLs
     image_url = image_urls.get(normalized_image_name, "default_image_url")
-    print(f"Processing image: {normalized_image_name}, URL: {image_url}")  # Debugging print
 
     # Authenticate and fetch the image URL
     image_url = authenticate_and_get_image_url(image_url)
-    print("\n\n\n\n\n\n")
-    print(f"Authenticated image URL: {image_url}")  # Debugging print
 
     # Download the image locally
     local_image_path = os.path.join(images_dir, normalized_image_name)
@@ -315,7 +337,6 @@ def process_image(image_urls, image_name, images_dir):
         if response.status_code == 200:
             with open(local_image_path, 'wb') as f:
                 f.write(response.content)
-            print(f"Image downloaded to: {local_image_path}")  # Debugging print
         else:
             print(f"Failed to download image: {image_url}")  # Debugging print
     except Exception as e:
