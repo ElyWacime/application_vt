@@ -20,7 +20,6 @@ RUN apt-get update && apt-get install -y \
     tmux \
     nginx
 
-    
 WORKDIR /flask-app-pdf-v2
 
 COPY flask-app-pdf-v2 .
@@ -42,8 +41,12 @@ RUN python3 -m venv venv \
     && . venv/bin/activate \
     && pip install --upgrade pip \
     && pip install -r requirements.txt
+s
+RUN mkdir /var/www && \
+    mkdir /var/www/vt_maps
 
-    
-EXPOSE 12345 80
+COPY maps_index.html /var/www/vt_maps
+
+EXPOSE 8080 80
 
 CMD ["bash"]
