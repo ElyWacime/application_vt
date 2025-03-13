@@ -41,9 +41,8 @@ RUN python3 -m venv venv \
     && . venv/bin/activate \
     && pip install --upgrade pip \
     && pip install -r requirements.txt
-s
-RUN mkdir /var/www && \
-    mkdir /var/www/vt_maps
+
+RUN mkdir /var/www/vt_maps
 
 COPY maps_index.html /var/www/vt_maps
 
