@@ -1,3 +1,3 @@
 bind = "0.0.0.0:12345"
-workers = 4
+workers = 1
 
