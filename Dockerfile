@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     vim \
     tmux \
-    nginx
+    nginx \
+    nginx-extras
 
 WORKDIR /flask-app-pdf-v2
 
@@ -28,7 +29,7 @@ COPY .tmux.conf /root/.tmux.conf
 COPY .tmux.conf .tmux.conf
 
 RUN mv /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-available/application_vt
-RUN ln -s /etc/nginx/sites-available/file /etc/nginx/sites-enabled/application_vt
+RUN ln -s /etc/nginx/sites-available/application_vt /etc/nginx/sites-enabled/
 
 RUN curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
     | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
@@ -43,9 +44,12 @@ RUN python3 -m venv venv \
     && pip install -r requirements.txt
 
 RUN mkdir /var/www/vt_maps
+RUN chown -R www-data:www-data /var/www/
+RUN chmod -R 775 /var/www/
 
 COPY maps_index.html /var/www/vt_maps
 
 EXPOSE 8080 80
 
+# CMD ["bash", "-c", "nginx && source venv/bin/activate && gunicorn -c gunicorn_config.py wsgi:wsgi"]
 CMD ["bash"]

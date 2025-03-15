@@ -28,7 +28,7 @@ def generate_pdf():
         print(f"PDF generated at: {pdf_file_path}")
         return send_file(pdf_file_path, download_name='output.pdf', as_attachment=True, mimetype='application/pdf')
     except Exception as e:
-        print("\n\n\n\nENTER\n\n\n\n\n")
+        print("\n\n\n\nERROR\n\n\n\n\n")
         return jsonify({"error": str(e)}), 500
     
 
