@@ -50,12 +50,10 @@ def proxy_image():
 @bp.route("/vt-map/")
 def serve_map():
     map_name = request.args.get("map")  
-    print(">>>>>>>>>>>>>>>>: "+map_name)
     if not map_name:
         return abort(400, "Missing 'map' parameter")
 
     file_path = os.path.join("/var/www/vt_maps/", f"{map_name}")
-    print(">>>>>>>>>>>>>>>>>: "+file_path)
     # Ensure the file exists before serving
     if os.path.exists(file_path):
         return send_from_directory("/var/www/vt_maps/", map_name)

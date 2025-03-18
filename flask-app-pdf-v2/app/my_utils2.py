@@ -199,20 +199,23 @@ def process_generic_data(key, value):
         if key == "site_group/adresse":
             label = "1.1 Adresse du site"
             anchor_name = "site_group/adresse"
-        elif key.endswith('_color') and isinstance(value, str) and value.startswith('#'):
-                return ""
-        elif key == "site_group/contr_reglem":
+        elif key == "site_group/contr_inter":
             label = "1.2 Contraintes d'intervention (horaires, saisons) :"
+            anchor_name = "site_group/contr_inter"
+        elif key == "site_group/contr_reglem":
+            label = "1.3 Contraintes réglementaires : ERP, ICPE, ateliers, supérieure à 800 m² ?"
             anchor_name = "site_group/contr_reglem"
         elif key == "site_group/is_PL_acces":
-            label = "1.3 Accès PL, vehicule de chantier :"
+            label = "1.4 Accès PL, vehicule de chantier :"
             anchor_name = "site_group/is_PL_acces"
-        elif key == "site_group/contr_reglem_001":
-            label = "1.4 Contraintes: lignes HTA existante, réseau:"
+        elif key == "site_group/contr_reg":
+            label = "1.5 Contraintes: lignes HTA existante, réseau:"
             anchor_name = "site_group/contr_reglem_001"
         elif key.startswith('site_group/c') and len(key) == 14:
             label = "1.6 commentaire"
             anchor_name = "site_group/commentaire"
+        else:
+            return ""
 
     elif key.startswith("batiment_group"):
         section_name = "Batiment Group"
@@ -220,8 +223,6 @@ def process_generic_data(key, value):
         if key == "batiment_group/info_bati":
             label = "2.1 Information sur les bâtiments: Âge, plans/DOE à disposition"
             anchor_name = "batiment_group/info_bati"
-        elif key.endswith('_color') and isinstance(value, str) and value.startswith('#'):
-                return ""
         elif key.startswith("batiment_group/c") and len(key) == 18:
             label = "2.3 Commentaire sur les vues pignon et long pan"
             anchor_name = "batiment_group/commentaire_pignon"
@@ -258,6 +259,8 @@ def process_generic_data(key, value):
         elif key == "batiment_group/renov_attendus":
             label = "2.22 Préciser les travaux attendus pour la rénovation (désamiantage, désenfumage, translucide, etc.)"
             anchor_name = "batiment_group/travaux_renovation"
+        else:
+            return ""
 
     elif key.startswith("electricite_group"):
         section_name = "Electricite Group"
@@ -265,8 +268,6 @@ def process_generic_data(key, value):
         if key == "electricite_group/t_ombra":
             label = "3.1 Masque proche (ombrage): position et dimension (approx.) des obstacles"
             anchor_name = "electricite_group/masque_proche"
-        elif key.endswith('_color') and isinstance(value, str) and value.startswith('#'):
-                return ""
         elif key == "electricite_group/s91":
             label = "3.2 Masque proche (ombrage): photo/vidéo de l'environnement proche"
             anchor_name = "electricite_group/s91"
@@ -294,6 +295,7 @@ def process_generic_data(key, value):
         elif key == "electricite_group/s131":
             label = "3.15 Transformateur existant (public, privé): photo"
             anchor_name = "electricite_group/transformateur_photo"
+        else: return ""
 
     elif key.startswith("info_compl"):
         section_name = "Informations Complémentaires"
@@ -301,11 +303,12 @@ def process_generic_data(key, value):
         if key.startswith("info_compl/c") and len(key) == 15:
             label = "4.2 Commentaire sur le contrat d'électricité"
             anchor_name = "info_compl/commentaire_contrat"
-        elif key.endswith('_color') and isinstance(value, str) and value.startswith('#'):
-            return ""
         elif key.startswith("info_compl/s") and len(key) == 15:
             label = "4.3 Facture électrique (pour le calcul des taxes)"
             anchor_name = "info_compl/facture_electrique"
+        else:
+            return ""
+            
 
     else:
         label = key
