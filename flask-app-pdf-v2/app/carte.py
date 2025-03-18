@@ -46,4 +46,4 @@ def draw_map(data):
         ).add_to(m)
 
     m.save("/var/www/vt_maps/"+data["projet"]+".html")
-    return "/var/www/vt_maps/"+data["projet"]+".html"
+    return f"{data["projet"]}.html"

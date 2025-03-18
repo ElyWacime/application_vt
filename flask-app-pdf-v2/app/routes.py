@@ -5,6 +5,7 @@ import os
 import requests
 from app.carte import draw_map
 from dotenv import load_dotenv
+from flask import abort, send_from_directory
 
 load_dotenv()
 KOBO_USERNAME = os.getenv("KOBO_USERNAME")
@@ -45,3 +46,18 @@ def proxy_image():
         return Response(response.content, content_type=response.headers['Content-Type'])
     else:
         return f"Erreur {response.status_code}", response.status_code
+
+@bp.route("/vt-map/")
+def serve_map():
+    map_name = request.args.get("map")  
+    print(">>>>>>>>>>>>>>>>: "+map_name)
+    if not map_name:
+        return abort(400, "Missing 'map' parameter")
+
+    file_path = os.path.join("/var/www/vt_maps/", f"{map_name}")
+    print(">>>>>>>>>>>>>>>>>: "+file_path)
+    # Ensure the file exists before serving
+    if os.path.exists(file_path):
+        return send_from_directory("/var/www/vt_maps/", map_name)
+    else:
+        return abort(404, "Map file not found")

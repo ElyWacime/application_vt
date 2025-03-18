@@ -1,5 +1,5 @@
-from weasyprint import HTML
 import os
+from weasyprint import HTML
 from datetime import datetime
 import requests
 from dotenv import load_dotenv
@@ -39,6 +39,9 @@ def create_pdf_from_data(data):
     # Process JSON data to generate HTML content
     html_content += process_json_data(data, images_dir)
     map_path = draw_map(data)
+    html_content += f"""
+    <div><a href="http:localhost:8080/vt-map/?map={map_path}">Map with all pictures and geolocations</a></div>
+    """
     # Add additional information section
     html_content += f"""
     </body>
@@ -60,11 +63,14 @@ def create_pdf_from_data(data):
         print(f"Error uploading PDF to SharePoint: {e}")
 
     #upload HTML to sharepoint
-    try:
-        upload_htm_to_sharepoint(map_path)
-    except Exception as e:
-        print(f"Error uploading html file to sharepoint {e}")
-
+    #try:
+     #   upload_htm_to_sharepoint(map_path)
+    #except Exception as e:
+        #print(f"Error uploading html file to sharepoint {e}")
+    # create the url endpoint for the map html
+    
+    # add the map url to the pdf
+        
     return pdf_file_path
 
 def upload_pdf_to_sharepoint(file_path):
@@ -193,6 +199,8 @@ def process_generic_data(key, value):
         if key == "site_group/adresse":
             label = "1.1 Adresse du site"
             anchor_name = "site_group/adresse"
+        elif key.endswith('_color') and isinstance(value, str) and value.startswith('#'):
+                return ""
         elif key == "site_group/contr_reglem":
             label = "1.2 Contraintes d'intervention (horaires, saisons) :"
             anchor_name = "site_group/contr_reglem"
@@ -212,6 +220,8 @@ def process_generic_data(key, value):
         if key == "batiment_group/info_bati":
             label = "2.1 Information sur les bâtiments: Âge, plans/DOE à disposition"
             anchor_name = "batiment_group/info_bati"
+        elif key.endswith('_color') and isinstance(value, str) and value.startswith('#'):
+                return ""
         elif key.startswith("batiment_group/c") and len(key) == 18:
             label = "2.3 Commentaire sur les vues pignon et long pan"
             anchor_name = "batiment_group/commentaire_pignon"
@@ -255,6 +265,8 @@ def process_generic_data(key, value):
         if key == "electricite_group/t_ombra":
             label = "3.1 Masque proche (ombrage): position et dimension (approx.) des obstacles"
             anchor_name = "electricite_group/masque_proche"
+        elif key.endswith('_color') and isinstance(value, str) and value.startswith('#'):
+                return ""
         elif key == "electricite_group/s91":
             label = "3.2 Masque proche (ombrage): photo/vidéo de l'environnement proche"
             anchor_name = "electricite_group/s91"
@@ -289,6 +301,8 @@ def process_generic_data(key, value):
         if key.startswith("info_compl/c") and len(key) == 15:
             label = "4.2 Commentaire sur le contrat d'électricité"
             anchor_name = "info_compl/commentaire_contrat"
+        elif key.endswith('_color') and isinstance(value, str) and value.startswith('#'):
+            return ""
         elif key.startswith("info_compl/s") and len(key) == 15:
             label = "4.3 Facture électrique (pour le calcul des taxes)"
             anchor_name = "info_compl/facture_electrique"
