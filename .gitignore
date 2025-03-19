@@ -8,3 +8,5 @@ __pycache__/
 *.jpg
 *.json
 *.html
+pdfs/
+images/

@@ -49,7 +49,7 @@ def proxy_image():
 
 @bp.route("/vt-map/")
 def serve_map():
-    map_name = request.args.get("map")  
+    map_name = request.args.get("map")
     if not map_name:
         return abort(400, "Missing 'map' parameter")
 

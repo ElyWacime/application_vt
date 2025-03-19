@@ -21,7 +21,7 @@ def create_pdf_from_data(data):
     images_dir = os.path.join(current_dir, 'images')
     os.makedirs(images_dir, exist_ok=True)
     date_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    pdf_file_path = os.path.join(current_dir, f"{data.get('projet')}_{date_str}.pdf")
+    pdf_file_path = os.path.join(current_dir, f"pdfs/{data.get('projet')}_{date_str}.pdf")
 
     # Create HTML content
     html_content = f"""
